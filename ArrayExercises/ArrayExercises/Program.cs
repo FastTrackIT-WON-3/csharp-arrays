@@ -6,19 +6,11 @@ namespace ArrayExercises
     {
         static void Main(string[] args)
         {
-            // Citire array
-            // int[] array = ReadArray("Array");
+            int n = ReadNumber("N=", 2);
 
-            // asc
-            // int[] array = { 5, 7, 1, 3 };
-            int[] array = { 9, 8, 7, 6, 5, 4, 3 };
-            PrintArray("Array (original)=", array);
+            long[] fibo = Fibonacci(n);
 
-            int[] sortedArrayAsc = SelectionSort(array, SortOrder.Ascending);
-            int[] sortedArrayDesc = SelectionSort(array, SortOrder.Descending);
-
-            PrintArray("Array (asc)=", sortedArrayAsc);
-            PrintArray("Array (desc)=", sortedArrayDesc);
+            PrintArrayLong("Fibonacci numbers", fibo);
         }
 
         static void Assignment1()
@@ -65,6 +57,32 @@ namespace ArrayExercises
             Console.WriteLine($"Avg={avg}");
         }
 
+        static void Assignment2()
+        {
+            // Citire array
+            int[] array = ReadArray("Array");
+
+            // asc
+            // int[] array = { 5, 7, 1, 3 };
+            // int[] array = { 9, 8, 7, 6, 5, 4, 3 };
+            PrintArray("Array (original)=", array);
+
+            int[] sortedArrayAsc = SelectionSort(array, SortOrder.Ascending);
+            int[] sortedArrayDesc = SelectionSort(array, SortOrder.Descending);
+
+            PrintArray("Array (asc)=", sortedArrayAsc);
+            PrintArray("Array (desc)=", sortedArrayDesc);
+        }
+
+        static void Assignment3()
+        {
+            int n = ReadNumber("N=", 2);
+
+            int[] primes = Primes(n);
+
+            PrintArray("Prime numbers", primes);
+        }
+
         static int ReadNumber(string label, int defaultValue)
         {
             Console.Write(label);
@@ -92,6 +110,13 @@ namespace ArrayExercises
         }
 
         static void PrintArray(string label, int[] array)
+        {
+            Console.WriteLine();
+            string elementsList = string.Join(", ", array);
+            Console.WriteLine($"{label}={elementsList}");
+        }
+
+        static void PrintArrayLong(string label, long[] array)
         {
             Console.WriteLine();
             string elementsList = string.Join(", ", array);
@@ -288,6 +313,67 @@ namespace ArrayExercises
             }
 
             return result;
+        }
+
+        static int[] Primes(int n)
+        {
+            // 0 -> n
+            // wasCut[i] = 0 (false): daca numarul "i" NU a fost taiat (este prim)
+            // wasCut[i] = 1 (true): daca numarul "i" A fost taiat (nu este prim)
+
+            bool[] wasCut = new bool[n + 1];
+            int primesCount = 0;
+            for (int i = 2; i <= n; i++)
+            {
+                if (!wasCut[i])
+                {
+                    // am un nr prim
+                    primesCount++;
+
+                    for (int factor = 2; factor * i <= n; factor++)
+                    {
+                        wasCut[i * factor] = true;
+                    }
+                }
+            }
+
+            int[] result = new int[primesCount];
+            for (int i = 2, idxResult = 0; i < wasCut.Length; i++)
+            {
+                if (!wasCut[i])
+                {
+                    result[idxResult] = i;
+                    idxResult++;
+                }
+            }
+
+            return result;
+        }
+
+        static long[] Fibonacci(int n)
+        {
+            if (n == 0)
+            {
+                // Fib(0) = 0;
+                return new long[] { 0 };
+            }
+
+            if (n == 1)
+            {
+                // Fib(1) = 1;
+                return new long[] { 0, 1 };
+            }
+
+            long[] fibo = new long[n + 1];
+            fibo[0] = 0;
+            fibo[1] = 1;
+
+            for (int i = 2; i <= n; i++)
+            {
+                fibo[i] = fibo[i - 1] + fibo[i - 2];
+            }
+
+            return fibo;
         }
     }
 }
