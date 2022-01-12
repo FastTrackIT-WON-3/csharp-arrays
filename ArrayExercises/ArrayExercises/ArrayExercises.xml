@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ArrayExercises</name>
+    </assembly>
+    <members>
+        <member name="M:ArrayExercises.Program.Min(System.Int32[])">
+            <summary>
+            Returns the minimum element from an array, 
+            or int.MinValue if minimum cannot be calculated.
+            </summary>
+            <param name="array">The array.</param>
+            <returns>
+            The minimum element from an array, 
+            or int.MinValue if minimum cannot be calculated.
+            </returns>
+        </member>
+        <member name="M:ArrayExercises.Program.Max(System.Int32[])">
+            <summary>
+            Returns the maximum element from an array, 
+            or int.MaxValue if maximum cannot be calculated.
+            </summary>
+            <param name="array">The array.</param>
+            <returns>
+            The maximum element from an array, 
+            or int.MaxValue if maximum cannot be calculated.
+            </returns>
+        </member>
+        <member name="M:ArrayExercises.Program.IndexOf(System.Int32[],System.Int32)">
+            <summary>
+            Returns the index of the specified element.
+            </summary>
+            <param name="array">The array.</param>
+            <param name="element">The lookup element.</param>
+            <returns>The zero based index of the specified element if found, -1 otherwise.</returns>
+        </member>
+    </members>
+</doc>
