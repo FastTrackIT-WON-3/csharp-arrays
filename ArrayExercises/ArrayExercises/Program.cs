@@ -10,11 +10,12 @@ namespace ArrayExercises
             // int[] array = ReadArray("Array");
 
             // asc
-            int[] array = { 5, 7, 1, 3 };
+            // int[] array = { 5, 7, 1, 3 };
+            int[] array = { 9, 8, 7, 6, 5, 4, 3 };
             PrintArray("Array (original)=", array);
 
-            int[] sortedArrayAsc = BubbleSort(array, SortOrder.Ascending);
-            int[] sortedArrayDesc = BubbleSort(array, SortOrder.Descending);
+            int[] sortedArrayAsc = SelectionSort(array, SortOrder.Ascending);
+            int[] sortedArrayDesc = SelectionSort(array, SortOrder.Descending);
 
             PrintArray("Array (asc)=", sortedArrayAsc);
             PrintArray("Array (desc)=", sortedArrayDesc);
@@ -250,6 +251,41 @@ namespace ArrayExercises
                 }
             }
             while (weHadSwaps);
+
+            return result;
+        }
+
+        static int[] SelectionSort(int[] array, SortOrder sortOrder)
+        {
+            int[] result = Clone(array);
+
+            for (int i = 0; i < result.Length - 1; i++)
+            {
+                // sa aduc pe result[i] minimul din sub-sirul result[i+1] => capat
+                for (int j = i + 1; j < result.Length; j++)
+                {
+                    bool areElementsInCorrectOrder = true;
+                    switch (sortOrder)
+                    {
+                        case SortOrder.Descending:
+                            areElementsInCorrectOrder = result[i] > result[j];
+                            break;
+
+                        case SortOrder.Ascending:
+                        default:
+                            areElementsInCorrectOrder = result[i] < result[j];
+                            break;
+                    }
+
+                    if (!areElementsInCorrectOrder)
+                    {
+                        // swap: result[i] = result[j];
+                        int temp = result[i];
+                        result[i] = result[j];
+                        result[j] = temp;
+                    }
+                }
+            }
 
             return result;
         }
