@@ -34,5 +34,20 @@
             <param name="element">The lookup element.</param>
             <returns>The zero based index of the specified element if found, -1 otherwise.</returns>
         </member>
+        <member name="T:ArrayExercises.SortOrder">
+            <summary>
+            Represents the sort order.
+            </summary>
+        </member>
+        <member name="F:ArrayExercises.SortOrder.Ascending">
+            <summary>
+            Ascending sort order.
+            </summary>
+        </member>
+        <member name="F:ArrayExercises.SortOrder.Descending">
+            <summary>
+            Descending sort order.
+            </summary>
+        </member>
     </members>
 </doc>

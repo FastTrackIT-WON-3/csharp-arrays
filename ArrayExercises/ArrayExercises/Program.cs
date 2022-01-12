@@ -7,6 +7,22 @@ namespace ArrayExercises
         static void Main(string[] args)
         {
             // Citire array
+            // int[] array = ReadArray("Array");
+
+            // asc
+            int[] array = { 5, 7, 1, 3 };
+            PrintArray("Array (original)=", array);
+
+            int[] sortedArrayAsc = BubbleSort(array, SortOrder.Ascending);
+            int[] sortedArrayDesc = BubbleSort(array, SortOrder.Descending);
+
+            PrintArray("Array (asc)=", sortedArrayAsc);
+            PrintArray("Array (desc)=", sortedArrayDesc);
+        }
+
+        static void Assignment1()
+        {
+            // Citire array
             int[] array = ReadArray("Array");
 
             PrintArray("Array", array);
@@ -43,6 +59,9 @@ namespace ArrayExercises
             {
                 Console.WriteLine($"Index of {element} = {indexOfElement}");
             }
+
+            float avg = Average(array);
+            Console.WriteLine($"Avg={avg}");
         }
 
         static int ReadNumber(string label, int defaultValue)
@@ -162,6 +181,77 @@ namespace ArrayExercises
 
             // the element was not found in the array
             return -1;
+        }
+
+        static float Average(int[] array)
+        {
+            if (array is null || array.Length == 0)
+            {
+                return 0;
+            }
+
+            float sum = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                sum += array[i];
+            }
+
+            return sum / array.Length;
+        }
+
+        static int[] Clone(int[] array)
+        {
+            if (array is null || array.Length == 0)
+            {
+                return new int[0];
+            }
+
+            int[] clone = new int[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+                clone[i] = array[i];
+            }
+
+            return clone;
+        }
+
+        static int[] BubbleSort(int[] array, SortOrder sortOrder)
+        {
+            int[] result = Clone(array);
+
+            bool weHadSwaps;
+            do
+            {
+                weHadSwaps = false;
+                for (int i = 0; i < result.Length - 1; i++)
+                {
+                    bool areElementsInCorrectOrder = true;
+                    switch (sortOrder)
+                    {
+                        case SortOrder.Descending:
+                            areElementsInCorrectOrder = result[i] > result[i + 1];
+                            break;
+
+                        case SortOrder.Ascending:
+                        default:
+                            areElementsInCorrectOrder = result[i] < result[i + 1];
+                            break;
+                    }
+
+                    if (!areElementsInCorrectOrder)
+                    {
+                        int temp = result[i];
+                        result[i] = result[i + 1];
+                        result[i + 1] = temp;
+
+                        weHadSwaps = true;
+                        break;
+                    }
+                }
+            }
+            while (weHadSwaps);
+
+            return result;
         }
     }
 }
