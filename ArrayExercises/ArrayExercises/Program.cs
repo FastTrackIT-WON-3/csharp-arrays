@@ -6,11 +6,23 @@ namespace ArrayExercises
     {
         static void Main(string[] args)
         {
-            int n = ReadNumber("N=", 2);
+            int[,] matrix1 = ReadMatrix("Matrix1");
+            Console.WriteLine();
 
-            long[] fibo = Fibonacci(n);
+            int[,] matrix2 = ReadMatrix("Matrix2");
+            Console.WriteLine();
 
-            PrintArrayLong("Fibonacci numbers", fibo);
+            PrintMatrix("Matrix1", matrix1);
+            PrintMatrix("Matrix2", matrix2);
+
+            int[,] sum = SumMatrix(matrix1, matrix2);
+            PrintMatrix("Sum", sum);
+
+            int[] mainDiagonal = MatrixMainDiagonal(sum);
+            PrintArray("Main Diagonal of Sum", mainDiagonal);
+
+            int[,] prod = ProductMatrix(matrix1, matrix2);
+            PrintMatrix("Product", prod);
         }
 
         static void Assignment1()
@@ -81,6 +93,15 @@ namespace ArrayExercises
             int[] primes = Primes(n);
 
             PrintArray("Prime numbers", primes);
+        }
+
+        static void Assignment4()
+        {
+            int n = ReadNumber("N=", 2);
+
+            long[] fibo = Fibonacci(n);
+
+            PrintArrayLong("Fibonacci numbers", fibo);
         }
 
         static int ReadNumber(string label, int defaultValue)
@@ -374,6 +395,122 @@ namespace ArrayExercises
             }
 
             return fibo;
+        }
+
+        static int[,] ReadMatrix(string label)
+        {
+            Console.WriteLine(label);
+            int rowsCount = ReadNumber("Rows Count=", 0);
+            int colsCount = ReadNumber("Cols Count=", 0);
+
+            int[,] matrix = new int[rowsCount, colsCount];
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    int element = ReadNumber($"Element[{i},{j}]=", 0);
+                    matrix[i, j] = element;
+                }
+            }
+
+            return matrix;
+        }
+
+        static void PrintMatrix(string label, int[,] matrix)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"{label}");
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    Console.Write($"{matrix[i, j], 6}");
+                }
+
+                Console.WriteLine();
+            }
+        }
+
+        static int[,] SumMatrix(int[,] matrix1, int[,] matrix2)
+        {
+            if (matrix1 is null || matrix2 is null)
+            {
+                return new int[0, 0];
+            }
+
+            bool haveSameDimensions =
+                matrix1.GetLength(0) == matrix2.GetLength(0) &&
+                matrix1.GetLength(1) == matrix2.GetLength(1);
+
+            if (!haveSameDimensions)
+            {
+                return new int[0, 0];
+            }
+
+            int[,] sum = new int[matrix1.GetLength(0), matrix1.GetLength(1)];
+            for (int i = 0; i < matrix1.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix1.GetLength(1); j++)
+                {
+                    sum[i, j] = matrix1[i, j] + matrix2[i, j];
+                }
+            }
+
+            return sum;
+        }
+
+        static int[] MatrixMainDiagonal(int[,] matrix)
+        {
+            if (matrix is null)
+            {
+                return new int[0];
+            }
+
+            int minRowsCols = Math.Min(matrix.GetLength(0), matrix.GetLength(1));
+            int[] diagonal = new int[minRowsCols];
+            for (int i = 0; i < minRowsCols; i++)
+            {
+                diagonal[i] = matrix[i, i];
+            }
+
+            return diagonal;
+        }
+
+        static int[,] ProductMatrix(int[,] matrix1, int[,] matrix2)
+        {
+            if (matrix1 is null || matrix2 is null)
+            {
+                return new int[0, 0];
+            }
+
+            int rows1 = matrix1.GetLength(0);
+            int cols1 = matrix1.GetLength(1);
+
+            int rows2 = matrix2.GetLength(0);
+            int cols2 = matrix2.GetLength(1);
+
+            bool areDimensionsOk = cols1 == rows2;
+            if (!areDimensionsOk)
+            {
+                return new int[0, 0];
+            }
+
+            int[,] product = new int[rows1, cols2];
+            for (int i = 0; i < rows1; i++)
+            {
+                for (int j = 0; j < cols2; j++)
+                {
+                    int sum = 0;
+                    for (int k = 0; k < cols1; k++)
+                    {
+                        sum += matrix1[i, k] * matrix2[k, j];
+                    }
+
+                    product[i, j] = sum;
+                }
+            }
+
+            return product;
         }
     }
 }
