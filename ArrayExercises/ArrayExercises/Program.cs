@@ -6,23 +6,13 @@ namespace ArrayExercises
     {
         static void Main(string[] args)
         {
-            int[,] matrix1 = ReadMatrix("Matrix1");
-            Console.WriteLine();
+            // int[][] jaggedArray = ReadJaggedArray("Jagged Array");
+            // PrintJaggedArray("Jagged Array", jaggedArray);
 
-            int[,] matrix2 = ReadMatrix("Matrix2");
-            Console.WriteLine();
-
-            PrintMatrix("Matrix1", matrix1);
-            PrintMatrix("Matrix2", matrix2);
-
-            int[,] sum = SumMatrix(matrix1, matrix2);
-            PrintMatrix("Sum", sum);
-
-            int[] mainDiagonal = MatrixMainDiagonal(sum);
-            PrintArray("Main Diagonal of Sum", mainDiagonal);
-
-            int[,] prod = ProductMatrix(matrix1, matrix2);
-            PrintMatrix("Product", prod);
+            int[] set1 = { 1, 2, 3 };
+            int[] set2 = { 7, 8, 9 };
+            int[][] cartesian = CartesianProduct(set1, set2);
+            PrintJaggedArray("Cartesian", cartesian);
         }
 
         static void Assignment1()
@@ -102,6 +92,27 @@ namespace ArrayExercises
             long[] fibo = Fibonacci(n);
 
             PrintArrayLong("Fibonacci numbers", fibo);
+        }
+
+        static void ExercisesWithMatrices()
+        {
+            int[,] matrix1 = ReadMatrix("Matrix1");
+            Console.WriteLine();
+
+            int[,] matrix2 = ReadMatrix("Matrix2");
+            Console.WriteLine();
+
+            PrintMatrix("Matrix1", matrix1);
+            PrintMatrix("Matrix2", matrix2);
+
+            int[,] sum = SumMatrix(matrix1, matrix2);
+            PrintMatrix("Sum", sum);
+
+            int[] mainDiagonal = MatrixMainDiagonal(sum);
+            PrintArray("Main Diagonal of Sum", mainDiagonal);
+
+            int[,] prod = ProductMatrix(matrix1, matrix2);
+            PrintMatrix("Product", prod);
         }
 
         static int ReadNumber(string label, int defaultValue)
@@ -511,6 +522,54 @@ namespace ArrayExercises
             }
 
             return product;
+        }
+
+        static int[][] ReadJaggedArray(string label)
+        {
+            Console.WriteLine(label);
+            int count = ReadNumber("Count=", 0);
+            int[][] array = new int[count][];
+            for (int i = 0; i < count; i++)
+            {
+                int[] element = ReadArray($"Element[{i}][]");
+                array[i] = element;
+            }
+
+            return array;
+        }
+
+        static void PrintJaggedArray(string label, int[][] array)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"{label}");
+            for (int i = 0; i < array.Length; i++)
+            {
+                int[] element = array[i];
+                Console.Write($"Element[{i}][]=");
+                Console.Write(string.Join(",", element));
+                Console.WriteLine();
+            }
+        }
+
+        static int[][] CartesianProduct(int[] set1, int[] set2)
+        {
+            if (set1 is null || set2 is null)
+            {
+                return new int[0][];
+            }
+
+            int[][] result = new int[set1.Length * set2.Length][];
+            for (int i = 0, idxResult = 0; i < set1.Length; i++)
+            {
+                for (int j = 0; j < set2.Length; j++, idxResult++)
+                {
+                    // or:
+                    // idxResult = i * set2.Length + j;
+                    result[idxResult] = new int[] { set1[i], set2[j] };
+                }
+            }
+
+            return result;
         }
     }
 }
