@@ -9,10 +9,24 @@ namespace ArrayExercises
             // int[][] jaggedArray = ReadJaggedArray("Jagged Array");
             // PrintJaggedArray("Jagged Array", jaggedArray);
 
+            PrintJaggedArray(
+                "Jagged Array",
+                new int[3][]
+                {
+                    new int[] { 1, 2, 3},
+                    null,
+                    new int[] { 1, 2}
+                });
+
             int[] set1 = { 1, 2, 3 };
             int[] set2 = { 7, 8, 9 };
             int[][] cartesian = CartesianProduct(set1, set2);
             PrintJaggedArray("Cartesian", cartesian);
+
+            int[] set3 = { 1, 2, 3, 1, 5, 7, 1, 3 };
+            int[] freq = { 3, 1, 2, 3, 1, 1, 3, 2 };
+            int[][] set3WithFreq = ElementsWithFrequencies(set3);
+            PrintJaggedArray("Elements and Frequencies", set3WithFreq);
         }
 
         static void Assignment1()
@@ -542,12 +556,19 @@ namespace ArrayExercises
         {
             Console.WriteLine();
             Console.WriteLine($"{label}");
-            for (int i = 0; i < array.Length; i++)
+            if (array is not null)
             {
-                int[] element = array[i];
-                Console.Write($"Element[{i}][]=");
-                Console.Write(string.Join(",", element));
-                Console.WriteLine();
+                for (int i = 0; i < array.Length; i++)
+                {
+                    int[] element = array[i];
+                    Console.Write($"Element[{i}][]=");
+                    if (element is not null)
+                    {
+                        Console.Write(string.Join(",", element));
+                    }
+
+                    Console.WriteLine();
+                }
             }
         }
 
@@ -570,6 +591,32 @@ namespace ArrayExercises
             }
 
             return result;
+        }
+
+        static int[][] ElementsWithFrequencies(int[] array)
+        {
+            if (array is null)
+            {
+                return new int[0][];
+            }
+
+            int[][] elementsWithFrequencies = new int[array.Length][];
+            for (int i = 0; i < array.Length; i++)
+            {
+                int element = array[i];
+                int count = 0;
+                for (int j = 0; j < array.Length; j++)
+                {
+                    if (element == array[j])
+                    {
+                        count++;
+                    }
+                }
+
+                elementsWithFrequencies[i] = new int[] { element, count };
+            }
+
+            return elementsWithFrequencies;
         }
     }
 }
